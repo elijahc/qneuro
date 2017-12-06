@@ -12,11 +12,18 @@ with open(path.join(here,'README.md'), encoding='utf-8') as f:
 setup(
         name = 'qneuro',
 
-        version='0.0.1',
+        version='0.0.2',
         packages = ['qneuro'],
         description = 'helper classes and utilities for quantitative neuro group project',
         author = 'Elijah C',
         author_email = 'elijah.christensen@ucdenver.edu',
         url = 'https://github.com/elijahc/qneuro',
-        classifiers = [],
+        classifiers = [
+            'Programming Language :: Python :: 3.5'
+            ],
+        install_requires=[
+            'pandas',
+            'numpy'
+            ],
+        include_package_data=True,
 )
