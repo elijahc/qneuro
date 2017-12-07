@@ -1,1 +1,2 @@
 include qneuro/animal_metadata.pkl
+include qneuro/prep_vs_exec_all.npy
