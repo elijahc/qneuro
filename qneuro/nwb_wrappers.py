@@ -48,10 +48,9 @@ class Alm1DataSet(object):
             self.lick_timestamps = f['/acquisition/timeseries/lick_trace/timestamps'].value
             dips = np.argwhere(self.lick_data<0).flatten()
             self.lick_stop_times = np.zeros_like(self.trial_stop_timestamps)
-            cut = np.argmax(self.trial_start_timestamps>self.lick_timestamps[dips][0])-1
             patch = len(self.trial_stop_timestamps)-len(dips)
-            self.lick_stop_times[:cut] = np.array([np.nan]*patch)
-            self.lick_stop_times[cut:] = np.squeeze(self.lick_timestamps[dips])
+            nan_arr = np.array([np.nan]*patch)
+            self.lick_stop_times = np.concatenate([nan_arr,np.squeeze(self.lick_timestamps[dips])])
 
             filt = lambda crit: np.nonzero(self.type_mat[self.bitmasks[crit]].sum(axis=0))[0]
             self.trial_idxs = filt('all_trials')

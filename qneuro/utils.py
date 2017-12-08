@@ -90,10 +90,10 @@ def lick_window(dat,trl_idx):
     lick_t = dat.lick_timestamps
     licks = dat.lick_data
     trl_start = dat.trial_start_timestamps[trl_idx]
-    trl_stop = dat.lick_stop_times[trl_idx]
+    trl_stop = dat.trial_stop_timestamps[trl_idx]
     find_nearest = lambda arr,val: (np.abs(arr-val)).argmin()
-    ts = find_nearest(lick_t,trl_start)
-    te = find_nearest(lick_t,trl_stop)
+    ts = find_nearest(lick_t,trl_start)+15
+    te = find_nearest(lick_t,trl_stop)-15
     # ts = np.argmax(lick_t>trl_start)+15
     # te = np.argmax(lick_t[ts:]>trl_stop)+ts
     return slice(ts,te)
@@ -119,7 +119,12 @@ def get_movement_spikes(data_set, df, start_offset=-0.05, stop_offset=0.45):
     for idx in idxs:
         l_idxs = get_licks(data_set,idx)
 
-        first_licks.append(lick_t[l_idxs[0]])
+        if len(l_idxs)==0:
+            # first_licks.append(np.nan)
+            pass
+        else:
+            first_licks.append(lick_t[l_idxs[0]])
+
 
     spks = data_set.get_spike_times()
     mvmt_spikes = np.zeros((len(first_licks),len(data_set.unit_ids)))
